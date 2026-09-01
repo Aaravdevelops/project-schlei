@@ -3,7 +3,7 @@ import { FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { authClient } from '@/lib/auth-client'
 
-export function AuthForm({ mode }: { mode: 'sign-in' | 'sign-up' }) {
+export function AuthForm({ mode, redirectTo = '/dashboard' }: { mode: 'sign-in' | 'sign-up'; redirectTo?: string }) {
   const [error, setError] = useState(''); const [busy, setBusy] = useState(false); const router = useRouter()
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -16,7 +16,7 @@ export function AuthForm({ mode }: { mode: 'sign-in' | 'sign-up' }) {
         ? await authClient.signUp.email({ name: String(data.get('name')), email: String(data.get('email')), password: String(data.get('password')) })
         : await authClient.signIn.email({ email: String(data.get('email')), password: String(data.get('password')) })
       if (result.error) setError('We could not complete that request. Check your details and try again.')
-      else { router.push('/dashboard'); router.refresh() }
+      else { router.push(redirectTo); router.refresh() }
     } catch {
       setError('We could not reach the exchange. Please try again.')
     } finally {

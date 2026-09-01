@@ -23,5 +23,5 @@ export function AuthForm({ mode }: { mode: 'sign-in' | 'sign-up' }) {
       setBusy(false)
     }
   }
-  return <form className="auth-form" onSubmit={submit}>{mode === 'sign-up' && <label>Your name<input name="name" required /></label>}<label>Email<input name="email" type="email" required /></label><label>Password<input name="password" type="password" minLength={8} required /></label>{error && <p className="form-error">{error}</p>}<button className="button button-dark" disabled={busy}>{busy ? 'Please wait…' : mode === 'sign-up' ? 'Create account' : 'Sign in'} <span>↗</span></button></form>
+  return <form suppressHydrationWarning className="auth-form" onSubmit={submit}>{mode === 'sign-up' && <label>Your name<input suppressHydrationWarning name="name" required /></label>}<label>Email<input suppressHydrationWarning name="email" type="email" required /></label><label>Password<input suppressHydrationWarning name="password" type="password" minLength={8} required /></label>{error && <p className="form-error">{error}</p>}<button className="button button-dark" disabled={busy}>{busy ? 'Please wait…' : mode === 'sign-up' ? 'Create account' : 'Sign in'} <span>↗</span></button></form>
 }

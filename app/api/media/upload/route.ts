@@ -4,6 +4,7 @@ import { headers } from 'next/headers'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { media } from '@/lib/db/schema'
+import { eq } from 'drizzle-orm'
 
 export async function POST(request: NextRequest) {
   const session = await auth.api.getSession({ headers: await headers() })
@@ -29,6 +30,6 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const rows = await db.select().from(media).orderBy(media.createdAt)
-  return NextResponse.json({ media: rows.filter((item) => item.userId === session.user.id) })
+  const rows = await db.select().from(media).where(eq(media.userId, session.user.id)).orderBy(media.createdAt)
+  return NextResponse.json({ media: rows })
 }

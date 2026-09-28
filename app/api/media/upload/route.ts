@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
   const lowerPath = `${sourceUrl} ${file?.type || ''}`.toLowerCase()
   const kind = lowerPath.includes('video') || /\.(mp4|mov|webm)(\?|$)/.test(lowerPath) ? 'video' : 'photo'
   await db.insert(media).values({ userId: session.user.id, title, description, pathname, kind, site })
-  return NextResponse.json({ success: true })
+  return NextResponse.json({ success: true, pathname })
 }
 
 export async function GET() {
